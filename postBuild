@@ -1,0 +1,5 @@
+wget -q -O sub-001_eeg_sub-001_task-med2_eeg.bdf "https://amubox.univ-amu.fr/s/Bq4q5NoN6djMTEk/sub-001_eeg_sub-001_task-med2_eeg.bdf"
+wget -q -O sub-001_eeg_sub-001_task-think1_eeg.bdf "https://amubox.univ-amu.fr/s/FCTTgk7LfdFkqSX/sub-001_eeg_sub-001_task-think1_eeg.bdf"
+wget -q -0 sub-002_eeg_sub-002_task-med2_eeg.bdf "https://amubox.univ-amu.fr/s/Zz4LLTSgZktKnH9/sub-002_eeg_sub-002_task-med2_eeg.bdf"
+wget -q -0 sub-002_eeg_sub-002_task-think1_eeg.bdf "https://amubox.univ-amu.fr/s/Zz4LLTSgZktKnH9/sub-002_eeg_sub-002_task-think1_eeg.bdf"
+
