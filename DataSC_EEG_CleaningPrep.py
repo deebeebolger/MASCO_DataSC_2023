@@ -23,6 +23,8 @@
 
 
 import os
+import matplotlib
+matplotlib.use('qtagg')
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
@@ -37,9 +39,7 @@ sns.set_style('whitegrid')
 
 qt_api = os.environ.get('QT_API')
 
-
-# In[ ]:
-
+print(plt.get_backend())
 
 '''
     Load in an EDF dataset from the AuditoryOddball_TBI study folder.
@@ -48,9 +48,6 @@ qt_api = os.environ.get('QT_API')
 #get_ipython().run_line_magic('matplotlib', 'qt')
 fname = 'sub-004_ses-01_task-ThreeStimAuditoryOddball_eeg.edf'
 rawmed1 = pyedflib.EdfReader(fname)
-
-
-# In[ ]:
 
 
 n = rawmed1.signals_in_file                        # Find the data in the file
@@ -72,9 +69,6 @@ for i in np.arange(n):                             # For each channel add the da
 # 
 # First clue: if the sampling frequency is 500Hz, what is the time interval between each sample?
 
-# In[ ]:
-
-
 ## -----------------------We know the sampling rate of the data, so can we construct the time vector?----------------------
 srate = rawmed1.getSampleFrequency(0)
 datasize = sigbufs.shape      # This will give us the size of the sigbufs array:
@@ -89,13 +83,9 @@ print(f'The step in seconds is {step}seconds\n')
 print(f'The length of the data in samples is {datasize[1]} samples\n')
 print(f'The length of the time vector is: {len(time)}')
 
-
 # ## Now plot a single channel
 # We will plot the Cz channel using the time vector that we just calculated above.
 # We use the *index()* method to get the index of the Cz channel.
-
-# In[ ]:
-
 
 #get_ipython().run_line_magic('matplotlib', 'inline')
 ## Now we can plot the data of a single electrode over time.
@@ -103,12 +93,11 @@ print(f'The length of the time vector is: {len(time)}')
 chanidx = signal_labels.index('Cz')      # Find the index of the Cz electrode.
 plt.plot(time,sigbufs[chanidx, :])       # Plot the Cz signal
 plt.xlabel('time (seconds)')
-
+plt.show()
 
 # ### Plot an individual channel over a defined time interval
 # Here we will just plot the data of the Pz channel over the 60second to 70second time interval.
 # This means that we need define a shorter time interval.
-
 ### But we may want to visualize individual channel data for a pre-defined time interval.
 """Need to consctruct the new time vector"""
 lims_sec    = np.array([60, 70])               # We will define the limits of the time interval, from 60seconds to 70seconds
@@ -121,7 +110,6 @@ RawIn_sel   = sigbufs[chanindx2, lim1:lim2]     # Extract the raw data of intere
 t = time[lim1:lim2]                             # We define a new time vector, t, as being between lim1 and lim2
 plt.plot(t,RawIn_sel)
 plt.show()
-
 
 # ### Plot several channels over a defined time interval
 # 
@@ -137,7 +125,7 @@ chanidx3 = [signal_labels.index(item2) for item2 in chans_sel ]       # Find the
 RawIn_sel2 = sigbufs[chanidx3, lim1:lim2]   # Extract the data from the
 yoffset    = np.array([.001, 0, .001])      # Define a y-offset to seperate the channels
 y          = RawIn_sel2.T + yoffset         # Extract the magnitude data for the selected channel
-                                            # RawIn_sel2.T finds the transpose of the data array - exchange between columns and rows
+                                        # RawIn_sel2.T finds the transpose of the data array - exchange between columns and rows
 pline = plt.plot(t, y)
 plt.xlabel('Time (seconds)')
 plt.ylabel('Magnitude')
@@ -233,12 +221,8 @@ scale_dict = dict(mag=1e-12, grad=4e-11, eeg=20e-6, eog=150e-6, ecg=5e-4,
      emg=1e-3, ref_meg=1e-12, misc=1e-3, stim=1,
      resp=1, chpi=1e-4)
 
-get_ipython().run_line_magic('matplotlib', 'qt')
+#get_ipython().run_line_magic('matplotlib', 'qt')
 mne.viz.plot_raw(RawIn, events=None, duration=10, start=0, n_channels= 20, scalings='auto', remove_dc=True)
-
-
-# In[ ]:
-
 
 ## We can also plot the data in the RawIn object by using RawIn's '"plot" method
 
@@ -260,13 +244,13 @@ RawIn.plot(duration= 20, start = 60, scalings=scale_dict, remove_dc=True, )
 
 
 ### But we may want to visualize individual channel data for a pre-defined time interval.
-"""Need to consctruct the new time vector"""
+
 lims_sec    = np.array([60, 70])
 lim1, lim2  = (lims_sec * sampfreq).astype(int)   # Find the indices of the start and end of chosen time interval
 chan_idx    = Allchans.index('Cz')                # The index of the channel that you want to plot
 RawIn_sel   = RawIn[chan_idx, lim1:lim2]          # Extract the raw data of interest
 
-get_ipython().run_line_magic('matplotlib', 'inline')
+#get_ipython().run_line_magic('matplotlib', 'inline')
 t = RawIn_sel[1]                             # Extract the time vector
 y = RawIn_sel[0].T                           # Extract the magnitude data for the selected channel
 plt.plot(t, y)
@@ -282,9 +266,6 @@ plt.show()
 # In addition, we can also index our Raw object, RawIn, using the channel names rather than the indices.
 # Here we select 3 central channels to plot in a stacked plot.
 # So as to differentiate the signals of each channel, we define an offset for the y axis.
-
-# In[ ]:
-
 
 ## Use of the Raw method "time_as_index" to find the index
 Lims = RawIn.time_as_index(lims_sec)
@@ -306,9 +287,6 @@ plt.legend(pline, chan_sel)
 # 
 # This is necessary if we want to plot topographies of our data. 
 # Here we are using the standard 10-20 system.
-
-# In[ ]:
-
 
 '''
     Add the montage information to the current raw object, RawIn.
@@ -350,9 +328,6 @@ print('The mean for each  electrode: {} '.format(Dmean))
 # - How does resampling change the EEG signal?
 # - What other variable is automatically changed when we resample the EEG data?
 
-# In[ ]:
-
-
 rsamp = srate/2                                    # Downsample to half of the original sampling frequency.
 RawIn_rs = RawIn.copy().resample(sfreq=rsamp)      # Create a copy of RawIn and apply downsampling to this copy.
 
@@ -367,17 +342,12 @@ RawIn_rs = RawIn.copy().resample(sfreq=rsamp)      # Create a copy of RawIn and 
 # - we apply a high-pass filter to remove low frequency drifts
 # - we apply a low-pass filter to remove high frequency artifacts.
 
-# In[ ]:
-
 
 ## Filter the EEG Signal.
 #  High-pass filter with limit of 0.1Hz. 
 #  Note that we create a copy of the original rawIn object before filtering.
 
 RawIn_hifilt = RawIn.copy().filter(0.1, None, fir_design='firwin')
-
-
-# In[ ]:
 
 
 ## Filter the EEG Signal
@@ -438,15 +408,11 @@ RawIn_ref = RawIn_lofilt.copy().pick_types(eeg=True, exclude= ['bads','misc', 's
 fig = RawIn_ref.plot(block=True)              # Open the interactive raw.plot window. This should open a separate window.
 fig.canvas.key_press_event('a')
 
-
-# In[ ]:
-
-
 '''
     Alternatively we can visualize the EEG using the mne.viz routine.
 '''
 
-get_ipython().run_line_magic('matplotlib', 'qt')
+#get_ipython().run_line_magic('matplotlib', 'qt')
 mne.viz.plot_raw(RawIn_ref, events=None, duration=10, start=0, n_channels= 20, scalings='auto', remove_dc=True)
 
 
@@ -457,19 +423,12 @@ mne.viz.plot_raw(RawIn_ref, events=None, duration=10, start=0, n_channels= 20, s
 # - Cardiac artifact (ECG)
 # - Muscle artifacts (EMG)
 
-# In[ ]:
-
-
 ### HERE WE WILL MANUALLY ANNOTATE THE CONTINUOUS DATA TO MARK EYE-BLINKS OR BIG ELECTRODE JUMPS
 fig = RawIn_ref.plot(block=True, scalings='auto')              # Open the interactive raw.plot window. This should open a separate window.
 fig.canvas.key_press_event('a')
 
-
-# In[ ]:
-
-
 ## We will plot our data and annotate.
-get_ipython().run_line_magic('matplotlib', 'qt')
+#get_ipython().run_line_magic('matplotlib', 'qt')
 RawIn_ref.plot(duration= 40, start = 60, scalings='auto', remove_dc=False)
 
 
@@ -481,10 +440,8 @@ RawIn_ref.plot(duration= 40, start = 60, scalings='auto', remove_dc=False)
 # The power spectral density will be plotted in dB.
 # You can try plotting it again but setting the dB to **False**, can you see a difference?
 
-# In[ ]:
 
-
-get_ipython().run_line_magic('matplotlib', 'widget')
+#get_ipython().run_line_magic('matplotlib', 'widget')
 mne.viz.plot_raw_psd(RawIn_ref, fmin=0.5, fmax=40, dB=True)
 
 
@@ -563,9 +520,6 @@ ecg_epochs.average().plot_topomap()
 # In the example below, we look at the spatial distribution of activity at 10Hz, this corresponds to alpha frequency band.
 # In this example, we calculate the frequency content of the EEG over time.
 
-# In[ ]:
-
-
 from matplotlib import cm
 ### In continuous data, it is more interesting to look at frequency band activity.
 refdata = RawIn_ref.get_data()
@@ -636,21 +590,10 @@ fig = mne.viz.plot_events(events, event_id=event_dict, sfreq=RawIn_ref.info['sfr
 # - The frequency spectrum of the *Novel Tone* activity.
 # - An ERP-image and mean activity for the *Novel Tone* condition.
 
-# In[ ]:
-
-
-get_ipython().run_line_magic('matplotlib', 'widget')
+#get_ipython().run_line_magic('matplotlib', 'widget')
 epoch_data['Novel Tone'].plot(events=events, event_id=event_dict, scalings='auto', butterfly=True)
 
-
-# In[ ]:
-
-
 epoch_data['Novel Tone'].plot_psd(picks='eeg')
-
-
-# In[ ]:
-
 
 epoch_data['Novel Tone'].plot_image(picks='eeg', combine='mean')
 
@@ -662,9 +605,6 @@ epoch_data['Novel Tone'].plot_image(picks='eeg', combine='mean')
 # **Note:** The results here are not very informative as we are looking at the evoked activity of a single subject.
 # Normally, we calculate the average activity over several participants.
 
-# In[22]:
-
-
 epochs_novel = epoch_data['Novel Tone']
 epochs_standard = epoch_data['Standard Tone']
 
@@ -675,16 +615,5 @@ evoked_standard = epochs_standard.average()
 mne.viz.plot_compare_evokeds(dict(novel=evoked_novel, standard=evoked_standard),
                              legend='upper left', show_sensors='upper right')
 
-
-# In[ ]:
-
-
-epoch_fname = 'audoddball_epo.fif'
-evoked_standard.save(epoch_fname)
-
-
-# In[ ]:
-
-
-
-
+epoch_fname = 'audoddball_std-epo.fif'
+epochs_standard.save(epoch_fname)

@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 """
     LOAD IN THE EPOCHED DATA AND APPLY THE SURFACE LAPLACIAN
 """
-fname = 'sub-01_CVSA_taskoffline_run01-targetleft-ep.fif'
+fname = 'audoddball_std-epo.fif'
 epochIn = mne.read_epochs(fname, preload=False)
 
 # Get the electrode montage.
@@ -217,9 +217,6 @@ bf_erp.plot()
 at_erp.plot()
 
 # plot topographies
-bf_erp.plot_topomap(np.arange(0, 0.7, 0.1), vmin=-200, vmax=200, units="$\mu V$", time_unit='ms', cmap="jet", title="Voltage", scalings=dict(eeg=1e5))
-at_erp.plot_topomap(np.arange(0, 0.7, 0.1), vmin=-120, vmax=120, units="$\mu V/mm^2$", time_unit='ms', cmap="jet", title="Laplacian", scalings=dict(eeg=2e6))
-
-
-
-#%%
+times = np.linspace(0.0, 0.6, 4)
+bf_erp.plot_topomap(ch_type='eeg', times=times, colorbar=True)
+at_erp.plot_topomap(ch_type='eeg', times=times, colorbar=True)
