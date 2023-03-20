@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 """
     LOAD IN THE EPOCHED DATA AND APPLY THE SURFACE LAPLACIAN
 """
-fname = 'CVSA-Data/sub-01_CVSA_taskoffline_run01-targetleft-ep.fif'
+fname = 'sub-01_CVSA_taskoffline_run01-targetleft-ep.fif'
 epochIn = mne.read_epochs(fname, preload=False)
 
 # Get the electrode montage.
