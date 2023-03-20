@@ -1,5 +1,7 @@
 wget -q -O sub-001_eeg_sub-001_task-med2_eeg.bdf "https://amubox.univ-amu.fr/s/Bq4q5NoN6djMTEk/sub-001_eeg_sub-001_task-med2_eeg.bdf"
 wget -q -O sub-001_eeg_sub-001_task-think1_eeg.bdf "https://amubox.univ-amu.fr/s/FCTTgk7LfdFkqSX/sub-001_eeg_sub-001_task-think1_eeg.bdf"
+wget -q -O sub-004_ses-01_task-ThreeStimAuditoryOddball_eeg.edf "https://amubox.univ-amu.fr/s/xKerjTdL9Kw3p6J/sub-004_ses-01_task-ThreeStimAuditoryOddball_eeg.edf"
+wget -q -O sub-004_ses-01_task-ThreeStimAuditoryOddball_events.csv "https://amubox.univ-amu.fr/s/Z7RJYL6GA5JbPcK/sub-004_ses-01_task-ThreeStimAuditoryOddball_events.csv"
 
 
 
